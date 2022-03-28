@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cnu-docker-deployment
+  labels:
+    app: cnu-docker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cnu-docker
+  template: # Pod 의 template 을 의미합니다.
+    metadata:
+      labels:
+        app: cnu-docker
+    spec:
+      containers:
+      - name: cnu-kube # container 의 이름
+        image: ksl2950/jupyterhub-native # container 의 image
+        ports:
+        - containerPort: 8000 # container 의 내부 Port
+        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "200m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
