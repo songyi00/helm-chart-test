@@ -1,15 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "jupyterchart.fullname" . }}
+  name: my-docker
   labels:
-    {{- include "jupyterchart.labels" . | nindent 4 }}
+    run: my-docker
 spec:
-  type: {{ .Values.service.type }}
+  type: NodePort # Service 의 Type 을 명시하는 부분입니다. 
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
-      protocol: TCP
-      name: http
-  selector:
-    {{- include "jupyterchart.selectorLabels" . | nindent 4 }}
+  - port: 8000
+    protocol: TCP
+  selector: # 아래 label 을 가진 Pod 을 매핑하는 부분입니다.
+    app: cnu-docker 
